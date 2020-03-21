@@ -43,4 +43,13 @@ spec:
         - containerPort: 80
         - containerPort: 443
         resources: {}
-status: {}
+{{- if .Values.persistence }}
+        volumeMounts:
+        - mountPath: /config
+          name: data
+          subPath: web
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-pvc
+{{- end }}

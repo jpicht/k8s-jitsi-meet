@@ -6,6 +6,8 @@ timezone: Europe/Berlin
 
 default_url: "https://meet.jitsi/"
 
+persistence: false
+
 auth:
   enable: 0
   guests: 1

@@ -48,5 +48,16 @@ spec:
         - containerPort: 5280
         - containerPort: 5347
         resources: {}
+{{- if .Values.persistence }}
+        volumeMounts:
+        - mountPath: /config
+          name: data
+          subPath: prosody
+{{- end }}
       restartPolicy: Always
-status: {}
+{{- if .Values.persistence }}
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-pvc
+{{- end }}

@@ -38,5 +38,17 @@ spec:
         image: jitsi/jicofo
         name: {{ .Release.Name }}-jicofo
         resources: {}
+{{- if .Values.persistence }}
+        volumeMounts:
+        - mountPath: /config
+          name: data
+          subPath: jicofo
+{{- end }}
       restartPolicy: Always
+{{- if .Values.persistence }}
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-pvc
+{{- end }}
 status: {}

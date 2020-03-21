@@ -48,6 +48,16 @@ spec:
           protocol: UDP
         - containerPort: {{ .Values.jvb.port.tcp }}
         resources: {}
+{{- if .Values.persistence }}
         volumeMounts:
+        - mountPath: /config
+          name: data
+          subPath: jvb
+{{- end }}
       restartPolicy: Always
-status: {}
+{{- if .Values.persistence }}
+      volumes:
+      - name: data
+        persistentVolumeClaim:
+          claimName: {{ .Release.Name }}-pvc
+{{- end }}
