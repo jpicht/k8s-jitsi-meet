@@ -2,8 +2,8 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    service: jvb
-  name: jvb
+    service: {{ .Release.Name }}-jvb
+  name: {{ .Release.Name }}-jvb
 spec:
   replicas: 1
   strategy:
@@ -11,40 +11,38 @@ spec:
   template:
     metadata:
       labels:
-        service: jvb
+        service: {{ .Release.Name }}-jvb
     spec:
       containers:
       - env:
         - name: XMPP_SERVER
-          value: prosody
+          value: {{ .Release.Name }}-prosody
         - name: DOCKER_HOST_ADDRESS
           valueFrom:
             fieldRef:
               fieldPath: status.hostIP
         - name: XMPP_DOMAIN
-          value: meet.jitsi
+          value: {{ .Values.xmpp.domain }}
         - name: XMPP_AUTH_DOMAIN
-          value: auth.meet.jitsi
+          value: {{ .Values.xmpp.auth_domain }}
         - name: JVB_PORT
           value: "30000"
         - name: JVB_TCP_PORT
           value: "30001"
         - name: JVB_AUTH_USER
-          value: jvb
+          value: {{ .Values.jvb.auth.user }}
         - name: JVB_AUTH_PASSWORD
-          value: passw0rd
+          value: {{ .Values.jvb.auth.password }}
         - name: JVB_BREWERY_MUC
           value: jvbbrewery
         - name: XMPP_INTERNAL_MUC_DOMAIN
           value: internal-muc.meet.jitsi
         - name: JVB_STUN_SERVERS
           value: stun.l.google.com:19302,stun1.l.google.com:19302,stun2.l.google.com:19302
-        - name: JICOFO_AUTH_USER
-          value: focus
         - name: TZ
-          value: Europe/Paris
-        image: 103425057857.dkr.ecr.us-west-2.amazonaws.com/jitsi/jvb
-        name: jvb
+          value: {{ .Values.timezone }}
+        image: jitsi/jvb
+        name: {{ .Release.Name }}-jvb
         ports:
         - containerPort: 30000
           protocol: UDP

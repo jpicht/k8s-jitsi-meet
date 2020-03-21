@@ -2,8 +2,8 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    service: jicofo
-  name: jicofo
+    service: {{ .Release.Name }}-jicofo
+  name: {{ .Release.Name }}-jicofo
 spec:
   replicas: 1
   strategy:
@@ -11,30 +11,32 @@ spec:
   template:
     metadata:
       labels:
-        service: jicofo
+        service: {{ .Release.Name }}-jicofo
     spec:
       containers:
       - env:
+        - name: ENABLE_AUTH
+          value: {{ .Values.auth.enable | default 0 | quote }}
         - name: XMPP_SERVER
-          value: prosody.default.svc.cluster.local
+          value: {{ .Release.Name }}-prosody.default.svc.cluster.local
         - name: XMPP_DOMAIN
-          value: meet.jitsi
+          value: {{ .Values.xmpp.domain }}
         - name: XMPP_AUTH_DOMAIN
-          value: auth.meet.jitsi
+          value: {{ .Values.xmpp.auth_domain }}
         - name: JICOFO_COMPONENT_SECRET
-          value: s3cr37
+          value: {{ .Values.jicofo.component_secret }}
         - name: JICOFO_AUTH_USER
-          value: focus
+          value: {{ .Values.jicofo.auth.user }}
         - name: JICOFO_AUTH_PASSWORD
-          value: passw0rd
+          value: {{ .Values.jicofo.auth.password }}
         - name: JVB_BREWERY_MUC
           value: jvbbrewery
         - name: XMPP_INTERNAL_MUC_DOMAIN
           value: internal-muc.meet.jitsi
         - name: TZ
-          value: Europe/Paris
+          value: {{ .Values.timezone }}
         image: jitsi/jicofo
-        name: jicofo
+        name: {{ .Release.Name }}-jicofo
         resources: {}
       restartPolicy: Always
 status: {}

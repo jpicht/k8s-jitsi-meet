@@ -3,7 +3,7 @@ kind: Service
 metadata:
   labels:
     app: jitsi
-  name: jvb
+  name: {{ .Release.Name }}-jvb
 spec:
   type: NodePort
   ports:
@@ -18,4 +18,4 @@ spec:
     protocol: TCP
     targetPort: 30001
   selector:
-    service: jvb
+    service: {{ .Release.Name }}-jvb

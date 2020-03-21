@@ -2,8 +2,8 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    service: web
-  name: web
+    service: {{ .Release.Name }}-web
+  name: {{ .Release.Name }}-web
 spec:
   replicas: 1
   strategy:
@@ -11,24 +11,34 @@ spec:
   template:
     metadata:
       labels:
-        service: web
+        service: {{ .Release.Name }}-web
     spec:
       containers:
       - env:
+        - name: ENABLE_AUTH
+          value: {{ .Values.auth.enable | default 0 | quote }}
+        - name: ENABLE_GUESTS
+          value: {{ .Values.auth.enable | default 1 | quote }}
+        - name: ENABLE_LETSENCRYPT
+          value: "false"
+        - name: DISABLE_HTTPS
+          value: "1"
         - name: JICOFO_AUTH_USER
-          value: focus
+          value: {{ .Values.jicofo.auth.user }}
+        - name: PUBLIC_URL
+          value: {{ .Values.default_url }}
         - name: XMPP_DOMAIN
-          value: meet.jitsi
+          value: {{ .Values.xmpp.domain }}
         - name: XMPP_AUTH_DOMAIN
-          value: auth.meet.jitsi
+          value: {{ .Values.xmpp.auth_domain }}
         - name: XMPP_BOSH_URL_BASE
-          value: http://prosody:5280
+          value: http://{{ .Release.Name }}-prosody:5280
         - name: XMPP_MUC_DOMAIN
-          value: muc.meet.jitsi
+          value: {{ .Values.xmpp.muc_domain }}
         - name: TZ
           value: Europe/Paris
         image: jitsi/web
-        name: web
+        name: {{ .Release.Name }}-web
         ports:
         - containerPort: 80
         - containerPort: 443

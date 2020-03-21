@@ -2,8 +2,8 @@ apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
   labels:
-    service: prosody
-  name: prosody
+    service: {{ .Release.Name }}-prosody
+  name: {{ .Release.Name }}-prosody
 spec:
   replicas: 1
   strategy:
@@ -11,34 +11,38 @@ spec:
   template:
     metadata:
       labels:
-        service: prosody
+        service: {{ .Release.Name }}-prosody
     spec:
       containers:
       - env:
+        - name: AUTH_TYPE
+          value: {{ .Values.auth.type | default "internal" }}
+        - name: ENABLE_AUTH
+          value: {{ .Values.auth.enable | default 0 | quote }}
+        - name: ENABLE_GUESTS
+          value: {{ .Values.auth.guests | default 1 | quote }}
         - name: XMPP_DOMAIN
-          value: meet.jitsi
+          value: {{ .Values.xmpp.domain }}
         - name: XMPP_AUTH_DOMAIN
-          value: auth.meet.jitsi
+          value: {{ .Values.xmpp.auth_domain }}
         - name: XMPP_MUC_DOMAIN
-          value: muc.meet.jitsi
-        - name: JICOFO_COMPONENT_SECRET
-          value: s3cr37
-        - name: JVB_COMPONENT_SECRET
-          value: s3cr3t
-        - name: JICOFO_AUTH_USER
-          value: focus
-        - name: JICOFO_AUTH_PASSWORD
-          value: passw0rd
-        - name: JVB_AUTH_USER
-          value: jvb
-        - name: JVB_AUTH_PASSWORD
-          value: passw0rd
+          value: {{ .Values.xmpp.muc_domain }}
         - name: XMPP_INTERNAL_MUC_DOMAIN
           value: internal-muc.meet.jitsi
+        - name: JICOFO_COMPONENT_SECRET
+          value: {{ .Values.jicofo.component_secret }}
+        - name: JICOFO_AUTH_USER
+          value: {{ .Values.jicofo.auth.user }}
+        - name: JICOFO_AUTH_PASSWORD
+          value: {{ .Values.jicofo.auth.password }}
+        - name: JVB_AUTH_USER
+          value: {{ .Values.jvb.auth.user }}
+        - name: JVB_AUTH_PASSWORD
+          value: {{ .Values.jvb.auth.password }}
         - name: TZ
-          value: Europe/Paris
+          value: {{ .Values.timezone }}
         image: jitsi/prosody
-        name: prosody
+        name: {{ .Release.Name }}-prosody
         ports:
         - containerPort: 5222
         - containerPort: 5280
