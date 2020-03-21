@@ -26,6 +26,9 @@ jvb:
   auth:
     user: jvb
     password: changeme
+  port:
+    udp: 30000
+    tcp: 30001
 
 ingress:
   enabled: true

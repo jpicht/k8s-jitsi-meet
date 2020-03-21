@@ -26,9 +26,9 @@ spec:
         - name: XMPP_AUTH_DOMAIN
           value: {{ .Values.xmpp.auth_domain }}
         - name: JVB_PORT
-          value: "30000"
+          value: {{ .Values.jvb.port.udp | quote }}
         - name: JVB_TCP_PORT
-          value: "30001"
+          value: {{ .Values.jvb.port.tcp | quote }}
         - name: JVB_AUTH_USER
           value: {{ .Values.jvb.auth.user }}
         - name: JVB_AUTH_PASSWORD
@@ -44,9 +44,10 @@ spec:
         image: jitsi/jvb
         name: {{ .Release.Name }}-jvb
         ports:
-        - containerPort: 30000
+        - containerPort: {{ .Values.jvb.port.udp }}
           protocol: UDP
-        - containerPort: 30001
+        - containerPort: {{ .Values.jvb.port.tcp }}
         resources: {}
+        volumeMounts:
       restartPolicy: Always
 status: {}
