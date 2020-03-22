@@ -39,6 +39,22 @@ spec:
           value: {{ .Values.jvb.auth.user }}
         - name: JVB_AUTH_PASSWORD
           value: {{ .Values.jvb.auth.password }}
+        - name: JWT_APP_ID
+          value: {{ .Values.auth.jwt.app_id }}
+        - name: JWT_APP_SECRET
+          value: {{ .Values.auth.jwt.app_secret }}
+        - name: JWT_ACCEPTED_ISSUERS
+          value: {{ .Values.auth.jwt.accepted_issuers }}
+        - name: JWT_ACCEPTED_AUDIENCES
+          value: {{ .Values.auth.jwt.accepted_audiences }}
+        - name: JWT_ASAP_KEYSERVER
+          value: {{ .Values.auth.jwt.asap_key_server }}
+        - name: JWT_ALLOW_EMPTY
+          value: {{ .Values.auth.jwt.allow_empty | default 0 | quote }}
+        - name: JWT_AUTH_TYPE
+          value: {{ .Values.auth.jwt.auth_type | default "token" }}
+        - name: JWT_TOKEN_AUTH_MODULE
+          value: {{ .Values.auth.jwt.auth_module | default "token_verification" }}
         - name: TZ
           value: {{ .Values.timezone }}
         image: jitsi/prosody

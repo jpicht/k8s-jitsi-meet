@@ -6,16 +6,14 @@ metadata:
   name: {{ .Release.Name }}-prosody
 spec:
   ports:
-  - name: "5222"
+  - name: "xmpp-client2server"
     port: 5222
     targetPort: 5222
   - name: "5280"
     port: 5280
     targetPort: 5280
-  - name: "5347"
+  - name: "xmpp-component2component"
     port: 5347
     targetPort: 5347
   selector:
     service: {{ .Release.Name }}-prosody
-status:
-  loadBalancer: {}

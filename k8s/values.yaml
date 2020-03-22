@@ -12,6 +12,15 @@ auth:
   enable: 0
   guests: 1
   type: internal
+  jwt:
+    app_id: jitsi
+    app_secret: changeme
+    #accepted_issuers:
+    #accepted_audiences:
+    #asap_key_server:
+    #allow_empty: 0
+    #auth_type:
+    #auth_module:
 
 xmpp:
   domain: meet.jitsi
