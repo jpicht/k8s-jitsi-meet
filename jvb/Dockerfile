@@ -1,5 +1,6 @@
 ARG JITSI_REPO=jitsi
-FROM ${JITSI_REPO}/base-java
+ARG DOCKER_IMAGE_PREFIX=jitsi-k8s-
+FROM ${JITSI_REPO}/${DOCKER_IMAGE_PREFIX}base-java
 
 RUN \
 	apt-dpkg-wrap apt-get update && \

@@ -1,4 +1,4 @@
 build:
-	docker build $(BUILD_ARGS) -t $(JITSI_REPO)/etherpad .
+	docker build $(BUILD_ARGS) -t $(JITSI_REPO)/$(DOCKER_IMAGE_PREFIX)etherpad .
 
 .PHONY: build

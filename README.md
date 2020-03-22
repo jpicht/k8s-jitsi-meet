@@ -38,3 +38,5 @@ helm install -f your-values.yaml your-installation-nickname .
 [jwt.io]: https://jwt.io/#debugger-io
 [Etherpad]: https://github.com/ether/etherpad-lite
 [Jibri]: https://github.com/jitsi/jibri
+[Kubernetes]: https://kubernetes.io/
+[Helm]: https://helm.sh/
