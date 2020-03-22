@@ -22,9 +22,6 @@ cp values.yaml your-values.yaml
 helm install -f your-values.yaml your-installation-nickname .
 ```
 
-
-## Links
-
 [Jitsi]: https://jitsi.org/
 [Jitsi Meet]: https://jitsi.org/jitsi-meet/
 [S6 Overlay]: https://github.com/just-containers/s6-overlay
